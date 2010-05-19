@@ -13,7 +13,7 @@
 #include <Scene/PostProcessNode.h>
 
 namespace OpenEngine {
-    namespace Resources {
+    namespace Scene {
         
         class BlurPostProcessNode : public PostProcessNode {
         public:

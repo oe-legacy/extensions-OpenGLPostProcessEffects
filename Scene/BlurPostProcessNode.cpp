@@ -9,6 +9,9 @@
 
 #include <Scene/BlurPostProcessNode.h>
 
+using namespace OpenEngine::Math;
+using namespace OpenEngine::Renderers;
+
 namespace OpenEngine {
     namespace Scene {
         
