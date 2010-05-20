@@ -19,17 +19,6 @@ void main(void)
     color += texture2D(color0, texCoord + vec2(offset,-offset)) * -1.0;
     color += texture2D(color0, texCoord + vec2(-offset,-offset)) * -1.0;
 
-    /*
-    float scalar = 20.0;
-    vec2 bump = vec2(.5, .5);
-    vec2 dist = bump - texCoord;
-    float l = length(dist) * scalar;
-    l = clamp(l, .0, 1.57);
-    vec2 tc = texCoord + .6 * dist * cos(l);
-    
-    gl_FragColor = texture2D(color0, tc);
-    */
-
     gl_FragColor = texture2D(color0, texCoord) * (1.0 - length(color));
     gl_FragDepth = shadow2D(depth, vec3(texCoord, 0.0)).x;
 }

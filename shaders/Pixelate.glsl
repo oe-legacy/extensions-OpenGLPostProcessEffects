@@ -1,2 +1,2 @@
-vert: extensions/PostProcess/shaders/default.glsl.vert
-frag: extensions/PostProcess/shaders/Pixelate.glsl.frag
+vert: extensions/OpenGLPostProcessEffects/shaders/default.glsl.vert
+frag: extensions/OpenGLPostProcessEffects/shaders/Pixelate.glsl.frag

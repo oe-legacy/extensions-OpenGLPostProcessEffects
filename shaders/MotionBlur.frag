@@ -1,7 +1,7 @@
 uniform sampler2D color0;
 uniform sampler2D finalColor0;
 
-const float bias = 0.95;
+const float bias = 0.7;
 
 varying vec2 texCoord;
 

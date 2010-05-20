@@ -1,5 +1,5 @@
 # test shader program
 
-vert: extensions/PostProcess/shaders/default.glsl.vert
-frag: extensions/PostProcess/shaders/EdgeDetection.glsl.frag
+vert: extensions/OpenGLPostProcessEffects/shaders/default.glsl.vert
+frag: extensions/OpenGLPostProcessEffects/shaders/EdgeDetection.glsl.frag
 

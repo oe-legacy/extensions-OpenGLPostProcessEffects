@@ -1,2 +1,2 @@
-vert: extensions/PostProcess/shaders/Chocolux.glsl.vert
-frag: extensions/PostProcess/shaders/Chocolux.glsl.frag
+vert: extensions/OpenGLPostProcessEffects/shaders/Chocolux.glsl.vert
+frag: extensions/OpenGLPostProcessEffects/shaders/Chocolux.glsl.frag
