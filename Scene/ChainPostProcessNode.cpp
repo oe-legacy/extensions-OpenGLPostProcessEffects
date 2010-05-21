@@ -1,4 +1,4 @@
-// Composite post process node.
+// Chain post process node.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,7 +7,7 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include <Scene/CompositePostProcessNode.h>
+#include <Scene/ChainPostProcessNode.h>
 
 #include <Logging/Logger.h>
 
@@ -20,11 +20,10 @@ using std::list;
 namespace OpenEngine {
     namespace Scene {
         
-        CompositePostProcessNode::CompositePostProcessNode()
-            : PostProcessNode() {
+        ChainPostProcessNode::ChainPostProcessNode(){
         }
         
-        CompositePostProcessNode::CompositePostProcessNode(list<IShaderResourcePtr> effects, 
+        ChainPostProcessNode::ChainPostProcessNode(list<IShaderResourcePtr> effects, 
                                                            Math::Vector<2, int> dims, 
                                                            unsigned int colorBuffers,
                                                            bool useDepth){
@@ -45,7 +44,8 @@ namespace OpenEngine {
             leaf = prevNode;
         }
 
-        CompositePostProcessNode::CompositePostProcessNode(list<PostProcessNode*> ns){
+        /*
+        ChainPostProcessNode::ChainPostProcessNode(list<PostProcessNode*> ns){
             nodes.clear();
 
             PostProcessNode* prevNode = NULL;
@@ -60,9 +60,9 @@ namespace OpenEngine {
             }
 
             leaf = prevNode;
-        }
+            }*/
 
-        void CompositePostProcessNode::Handle(RenderingEventArg arg){
+        void ChainPostProcessNode::Handle(RenderingEventArg arg){
             list<PostProcessNode*>::iterator itr = nodes.begin();
             while (itr != nodes.end()) {
                 (*itr)->Handle(arg);
@@ -70,7 +70,7 @@ namespace OpenEngine {
             }
         }
 
-        PostProcessNode* CompositePostProcessNode::GetPostProcessNode(unsigned int i){
+        PostProcessNode* ChainPostProcessNode::GetPostProcessNode(unsigned int i){
             list<PostProcessNode*>::iterator itr = nodes.begin();
             while (itr != nodes.end() && i > 0) {
                 --i;
@@ -83,16 +83,11 @@ namespace OpenEngine {
                 return NULL;
         }
 
-        void CompositePostProcessNode::AddNode(ISceneNode* sub){
+        void ChainPostProcessNode::AddNode(ISceneNode* sub){
             leaf->AddNode(sub);
         }
         
-        /**
-         * Visit all sub nodes of the scene node.
-         *
-         * @param visitor Node visitor
-         */
-        void CompositePostProcessNode::VisitSubNodes(ISceneNodeVisitor& visitor) {
+        void ChainPostProcessNode::VisitSubNodes(ISceneNodeVisitor& visitor) {
             PostProcessNode* root = *(nodes.begin());
             root->Accept(visitor);
         }

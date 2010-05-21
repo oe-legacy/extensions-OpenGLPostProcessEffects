@@ -1,4 +1,4 @@
-// Composite Post process node.
+// Chain Post process node.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,44 +7,35 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _COMPOSITE_POST_PROCESS_NODE_H_
-#define _COMPOSITE_POST_PROCESS_NODE_H_
+#ifndef _CHAIN_POST_PROCESS_NODE_H_
+#define _CHAIN_POST_PROCESS_NODE_H_
 
 #include <Scene/PostProcessNode.h>
+#include <Core/IListener.h>
+#include <Renderers/IRenderer.h>
 #include <list>
 
 namespace OpenEngine {
     namespace Scene {
         
-        class CompositePostProcessNode : public PostProcessNode {
+        class ChainPostProcessNode : public ISceneNode,
+                                     public Core::IListener<Renderers::RenderingEventArg> {
+            OE_SCENE_NODE(ChainPostProcessNode, ISceneNode);
         protected:
             PostProcessNode* leaf;
             std::list<PostProcessNode*> nodes;
 
         public:
-            CompositePostProcessNode();
+            ChainPostProcessNode();
 
-            CompositePostProcessNode(std::list<Resources::IShaderResourcePtr> effects, 
+            ChainPostProcessNode(std::list<Resources::IShaderResourcePtr> effects, 
                                      Math::Vector<2, int> dims, 
                                      unsigned int colorBuffers = 1,
                                      bool useDepth = true);
 
-            CompositePostProcessNode(std::list<PostProcessNode*> nodes);
+            //ChainPostProcessNode(std::list<PostProcessNode*> nodes);
 
             void Handle(Renderers::RenderingEventArg arg);
-
-            /**
-             * Initialize effect specific settings, such as more
-             * framebuffers or other variables.
-             */
-            //void Initialize(Renderers::RenderingEventArg arg);
-
-            /**
-             * Handles any logic that needs to be done before the
-             * effect, such as setting viewingvolume dependent
-             * uniforms or updating time uniforms.
-             */
-            //void PreEffect(Renderers::IRenderer& renderer, Math::Matrix<4,4,float> modelview);
 
             PostProcessNode* GetPostProcessNode(unsigned int i);
 

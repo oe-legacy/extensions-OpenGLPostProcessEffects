@@ -1,4 +1,5 @@
 uniform sampler2D color0;
+uniform sampler2DShadow depth;
 const vec2 screenLightPos = vec2(0.5,0.5);
 
 varying vec2 texCoord;
@@ -50,4 +51,5 @@ void main() {
        
     // Output final color 
     gl_FragColor = vec4(finalColor, 0);
+    gl_FragDepth = shadow2D(depth, vec3(texCoord, 0.0)).x;
 }
