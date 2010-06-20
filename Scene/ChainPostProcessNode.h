@@ -24,6 +24,7 @@ namespace OpenEngine {
         protected:
             PostProcessNode* leaf;
             std::list<PostProcessNode*> nodes;
+            bool enabled;
 
         public:
             ChainPostProcessNode();
@@ -36,6 +37,8 @@ namespace OpenEngine {
             //ChainPostProcessNode(std::list<PostProcessNode*> nodes);
 
             void Handle(Renderers::RenderingEventArg arg);
+
+            inline void SetEnabled(const bool e) { enabled = e; }
 
             PostProcessNode* GetPostProcessNode(unsigned int i);
 

@@ -26,7 +26,8 @@ namespace OpenEngine {
         ChainPostProcessNode::ChainPostProcessNode(list<IShaderResourcePtr> effects, 
                                                            Math::Vector<2, int> dims, 
                                                            unsigned int colorBuffers,
-                                                           bool useDepth){
+                                                           bool useDepth)
+            : enabled(true) {
             nodes.clear();
             
             PostProcessNode* prevNode = NULL;
@@ -88,8 +89,11 @@ namespace OpenEngine {
         }
         
         void ChainPostProcessNode::VisitSubNodes(ISceneNodeVisitor& visitor) {
-            PostProcessNode* root = *(nodes.begin());
-            root->Accept(visitor);
+            if (enabled){
+                PostProcessNode* root = *(nodes.begin());
+                root->Accept(visitor);
+            }else
+                leaf->VisitSubNodes(visitor);
         }
 
     }
