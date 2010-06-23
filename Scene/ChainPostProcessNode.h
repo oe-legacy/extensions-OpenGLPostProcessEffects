@@ -38,7 +38,8 @@ namespace OpenEngine {
 
             void Handle(Renderers::RenderingEventArg arg);
 
-            inline void SetEnabled(const bool e) { enabled = e; }
+            void SetEnabled(bool e) { enabled = e; }
+            bool Enabled() { return enabled; }
 
             PostProcessNode* GetPostProcessNode(unsigned int i);
 
