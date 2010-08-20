@@ -1,8 +1,7 @@
 uniform sampler2D color0;
 uniform sampler2DShadow depth;
-uniform float time;
 
-const float offset = 0.0003;
+const float offset = 0.0008;
 
 varying vec2 texCoord;
 
