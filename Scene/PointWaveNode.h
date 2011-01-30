@@ -23,7 +23,10 @@ namespace Scene {
 using Resources::OpenGLShader;
 using std::deque;
 
-class PointWaveNode : public PostProcessNode, public Core::IListener<Devices::MouseMovedEventArg> {
+class PointWaveNode 
+        : public PostProcessNode
+        , public Core::IListener<Devices::MouseMovedEventArg>
+        , public Core::IListener<Devices::MouseButtonEventArg> {
 private: 
     // temporary custom array shader to support binding of uniform arrays. Remove when this is implemented in OpenGLShader.
     class ArrayShader : public OpenGLShader { 
@@ -39,18 +42,21 @@ private:
         void SetCount(unsigned int count);
     };
     float t;
-    Vector<2,float> point;
+    Vector<2,unsigned int> point;
     ArrayShader* glshad;
     unsigned int maxPoints;
-    deque<pair<float,Vector<2,float> > > points;
     float* pointArray;
+protected:
+    deque<pair<float,Vector<2,float> > > points;
 public:
     PointWaveNode(unsigned int width, unsigned int height, unsigned maxPoints);
     virtual ~PointWaveNode();
     void Handle(Renderers::RenderingEventArg arg);
     void Handle(Devices::MouseMovedEventArg arg);
+    void Handle(Devices::MouseButtonEventArg arg);
     void PreEffect(Renderers::RenderingEventArg* arg, Math::Matrix<4,4,float>* modelview);
     void AddPoint(Vector<2,float> point);
+    void AddScreenPoint(Vector<2,unsigned int> point);
 };
 
 }

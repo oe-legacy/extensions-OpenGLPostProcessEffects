@@ -25,9 +25,9 @@ PointWaveNode::PointWaveNode(unsigned int width, unsigned int height, unsigned i
     , t(0.0)
     , maxPoints(maxPoints)
 {
+    //5.0,0.03,0.09
     glshad->AddDefine("NUM_POINTS", maxPoints);
-    
-    // pointsVec = vector<pair<float,Vector<2,float> > >(maxPoints+1);
+    memset(pointArray, 0, maxPoints*3);
 }
         
 PointWaveNode::~PointWaveNode() {
@@ -36,7 +36,7 @@ PointWaveNode::~PointWaveNode() {
     
 void PointWaveNode::Handle(Renderers::RenderingEventArg arg){
     // bind custom shader stuff
-    IShaderResourcePtr shad = GetEffect();
+    // IShaderResourcePtr shad = GetEffect();
     // shad->SetUniform("shockParams", Vector<3,float>(10.0, 0.8, 0.1));
 
     // run the post process shader
@@ -45,19 +45,26 @@ void PointWaveNode::Handle(Renderers::RenderingEventArg arg){
 
 void PointWaveNode::Handle(Devices::MouseMovedEventArg arg){
     // logger.info << "moved " << arg.x << ", "  << arg.y << logger.end;
-    Vector<2,float> p(float(arg.x)/float(dimensions[0]), float(dimensions[1]-arg.y)/float(dimensions[1]));
+    Vector<2,unsigned int> p(arg.x, arg.y);
 
-    if ( (point-p).GetLength() > 0.05 ) {
-        AddPoint(point);
+    if ( (point-p).GetLength() > 10) {
         point = p;
+        AddScreenPoint(point);
     }
 }
+
+void PointWaveNode::Handle(Devices::MouseButtonEventArg arg){
+    if (arg.button & Devices::BUTTON_LEFT) {
+        point = Vector<2,unsigned int>(arg.state.x, arg.state.y);
+        AddScreenPoint(point);
+    }
+}
+
 
 void PointWaveNode::PreEffect(Renderers::RenderingEventArg* arg, Math::Matrix<4,4,float>* modelview) {
     float dt = arg->approx * 1e-06;
     t += dt;
 
-    
     deque<pair<float,Vector<2,float> > >::iterator itr = points.begin();    
     unsigned int i = 0;
     for (; itr != points.end(); ++itr) {
@@ -67,24 +74,24 @@ void PointWaveNode::PreEffect(Renderers::RenderingEventArg* arg, Math::Matrix<4,
         p.second.ToArray(&pointArray[i*3 + 1]);
         ++i;
     }
+ 
+    // itr = points.begin();    
+    // for (; itr != points.end(); ++itr) {
+    //     pair<float,Vector<2,float> >& p = *itr;
+    //     logger.info << "time: " << p.first << " point: " << p.second << logger.end;
+    // }
     glshad->SetCount(points.size());
-
-    IShaderResourcePtr shad = GetEffect();
-    // logger.info << "t: " << t << logger.end;
-    // logger.info << "point: " << point << logger.end;
-    // shad->SetUniform("t", t);
-    // shad->SetUniform("center", point);
-    shad->SetUniform("count", (int)points.size());
 }
 
 void PointWaveNode::AddPoint(Vector<2,float> point) {
     points.push_back(make_pair(0.0f, point));
-    // logger.info << "max" << maxPoints << logger.end;
-    // logger.info << "size: " << points.size() << logger.end;
-        
     if (points.size() > maxPoints) {
         points.pop_front();
     }
+}
+
+void PointWaveNode::AddScreenPoint(Vector<2,unsigned int> point) {
+    AddPoint(Vector<2,float>(float(point[0])/float(dimensions[0]), float(dimensions[1]-point[1])/float(dimensions[1])));
 }
 
 PointWaveNode::ArrayShader::ArrayShader(string name, float* data)
