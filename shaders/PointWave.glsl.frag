@@ -16,7 +16,7 @@ void main()
         vec2 center = point.yz;
         
 
-        vec3 shockParams = vec3(50,0.04,0.06);
+        vec3 shockParams = vec3(50,0.04,0.09);
         /* vec3 shockParams = vec3(5.0, 0.01, 0.05); */
         /* vec3 shockParams = vec3(PARAM_X, PARAM_Y, PARAM_Z); */
         float distance = distance(uv, center);
