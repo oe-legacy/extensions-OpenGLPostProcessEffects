@@ -7,4 +7,6 @@ ADD_LIBRARY(Extensions_OpenGLPostProcessEffects
   Scene/UnderwaterPostProcessNode.cpp
   Scene/DepthOfFieldNode.h
   Scene/DepthOfFieldNode.cpp
+  Scene/PointWaveNode.h
+  Scene/PointWaveNode.cpp
 )
