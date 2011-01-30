@@ -1,7 +1,8 @@
+
 varying vec2 texCoord;
 uniform sampler2D color0;
 
-uniform float3[NUM_POINTS] points;
+uniform vec3 points[NUM_POINTS];
 
 void main()
 {
@@ -14,7 +15,7 @@ void main()
         vec2 center = point.yz;
         
 
-        vec3 shockParams = vec3(10,0.02,0.05);
+        vec3 shockParams = vec3(10.0, 0.02, 0.05);
         /* vec3 shockParams = vec3(PARAM_X, PARAM_Y, PARAM_Z); */
         float distance = distance(uv, center);
         if ( (distance <= (t + shockParams.z)) &&

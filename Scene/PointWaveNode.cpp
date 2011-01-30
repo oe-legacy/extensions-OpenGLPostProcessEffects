@@ -26,6 +26,7 @@ PointWaveNode::PointWaveNode(unsigned int width, unsigned int height, unsigned i
     , maxPoints(maxPoints)
 {
     //5.0,0.03,0.09
+    glshad->AddVersion("120");
     glshad->AddDefine("NUM_POINTS", maxPoints);
     memset(pointArray, 0, maxPoints*3);
 }
