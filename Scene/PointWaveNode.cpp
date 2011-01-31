@@ -28,8 +28,8 @@ PointWaveNode::PointWaveNode(unsigned int width, unsigned int height, unsigned i
     //5.0,0.03,0.09
     glshad->AddVersion("120");
     glshad->AddDefine("NUM_POINTS", maxPoints);
-    memset(pointArray, 0, maxPoints*3);
-    glshad->SetCount(maxPoints);
+    glshad->AddDefine("PI", Math::PI);
+    glshad->SetCount(0);
 }
         
 PointWaveNode::~PointWaveNode() {
@@ -49,7 +49,7 @@ void PointWaveNode::Handle(Devices::MouseMovedEventArg arg){
     // logger.info << "moved " << arg.x << ", "  << arg.y << logger.end;
     Vector<2,unsigned int> p(arg.x, arg.y);
 
-    if ( (point-p).GetLength() > 20) {
+    if ( (point-p).GetLength() > 30) {
         point = p;
         AddScreenPoint(point);
     }
@@ -76,12 +76,8 @@ void PointWaveNode::PreEffect(Renderers::RenderingEventArg* arg, Math::Matrix<4,
         p.second.ToArray(&pointArray[i*3 + 1]);
         ++i;
     }
- 
-    // itr = points.begin();    
-    // for (; itr != points.end(); ++itr) {
-    //     pair<float,Vector<2,float> >& p = *itr;
-    //     logger.info << "time: " << p.first << " point: " << p.second << logger.end;
-    // }
+    glshad->SetCount(points.size());
+    glshad->SetUniform("count", (int)points.size());
 }
 
 void PointWaveNode::AddPoint(Vector<2,float> point) {
