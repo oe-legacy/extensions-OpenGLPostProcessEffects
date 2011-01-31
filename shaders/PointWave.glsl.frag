@@ -18,9 +18,9 @@ void main() {
         float dist = length(dir);
         dir = normalize(dir);
 
-        float ampl = max(.01 - time * time * 0.001, 0.0);
-        float speed = 0.1 - 0.5 * 0.001 * time * time;
-        float window = 0.03;
+        float ampl = max(.01 - time * time * 0.006, 0.0);
+        float speed = 0.13 - 0.5 * 0.001 * time * time;
+        float window = 0.025;
         float freq =  max(200.0 - 50.0 * time, 100.0);
 
         if (dist <= (time * speed + window) 
