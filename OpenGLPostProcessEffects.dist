@@ -1,3 +1,3 @@
 # source
-darcs /extensions/OpenGLPostProcessEffects    http://openengine.dk/code/extensions/OpenGLPostProcessEffects
-darcs-dev /extensions/OpenGLPostProcessEffects    fh.daimi.au.dk:/users/cgd/code/extensions/OpenGLPostProcessEffects
+git /extensions/OpenGLPostProcessEffects        git://github.com/oe-legacy/extensions-OpenGLPostProcessEffects.git
+git-dev /extensions/OpenGLPostProcessEffects    git@github.com:oe-legacy/extensions-OpenGLPostProcessEffects.git
