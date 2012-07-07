@@ -1,5 +1,5 @@
 //noise effect intensity value (0 = no effect, 1 = full effect)
-const float noiseIntensity = 0.2;
+const float noiseIntensity = 0.4;
 //scanlines effect intensity value (0 = no effect, 1 = full effect)
 const float scanlineIntensity = 0.1;
 //scanlines effect count value (0 = no effect, 4096 = full effect)
@@ -17,15 +17,15 @@ void main() {
     // make some noise
 	float x = texCoord.x * texCoord.y * time;
 	x = mod(x, 13.0) * mod(x, 123.0);
-	float dx = mod(x, 0.006);
-	
-	// add noise
-	vec3 res = color.rgb + color.rgb * clamp(0.1 + dx * 100.0, 0.0, 1.0);
+	float dx = mod(x, 0.006) * 100.0;
+    // dx has range [0; 0.6]. Modulate it to [-0.3; 0.3]
+    dx -= 0.3;
 
-	// get us a sine and cosine
-	//vec2 sc = vec2(sin(texCoord.y * scanlineCount),cos(texCoord.y * scanlineCount));
+	// add noise
+	vec3 res = color.rgb + color.rgb * dx;
 
 	// add scanlines
+	//vec2 sc = vec2(sin(texCoord.y * scanlineCount),cos(texCoord.y * scanlineCount));
 	//res += color.rgb * vec3(sc.x, sc.y, sc.x) * scanlineIntensity;
 	
 	// interpolate between source and result by intensity
@@ -33,5 +33,4 @@ void main() {
 
 	// return with source alpha
 	gl_FragColor =  vec4(res, color.a);
-    
 }
